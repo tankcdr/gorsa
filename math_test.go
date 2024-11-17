@@ -1,12 +1,19 @@
 package gorsa_test
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/tankcdr/gorsa"
 )
 
+func equal(a, b []bool) bool {
+	return reflect.DeepEqual(a, b)
+}
+
 func TestMath_gcd(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		a    int
@@ -35,6 +42,8 @@ func TestMath_gcd(t *testing.T) {
 }
 
 func TestMath_lcm(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		a    int
@@ -56,6 +65,8 @@ func TestMath_lcm(t *testing.T) {
 }
 
 func TestMath_FastExp(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		a    int
@@ -78,6 +89,8 @@ func TestMath_FastExp(t *testing.T) {
 }
 
 func TestMath_FastExpMod(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		a    int
@@ -95,6 +108,51 @@ func TestMath_FastExpMod(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := gorsa.FastExpMod(tt.a, tt.b, tt.c); got != tt.want {
 				t.Errorf("gcd() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMath_SieveOfEratosthenes(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		max  int
+		want []bool
+	}{
+		{"SieveOfEratosthenes(10)", 10, []bool{false, false, true, true, false, true, false, true, false, false, false}},
+		{"SieveOfEratosthenes(20)", 20, []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false}},
+		{"SieveOfEratosthenes(30)", 30, []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, false, false, false, false, true, false}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := gorsa.SieveOfEratosthenes(tt.max); !equal(got, tt.want) {
+				t.Errorf("SieveOfEratosthenes() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMath_SieveToPrimes(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name  string
+		sieve []bool
+		want  []int
+	}{
+		{"PrintSieve(10)", []bool{false, false, true, true, false, true, false, true, false, false, false}, []int{2, 3, 5, 7}},
+		{"PrintSieve(20)", []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false}, []int{2, 3, 5, 7, 11, 13, 17, 19}},
+		{"PrintSieve(30)", []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, false, false, false, false, true, false}, []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29}},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := gorsa.SieveToPrimes(tt.sieve)
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("PrintSieve() = %v, want %v", got, tt.want)
 			}
 		})
 	}

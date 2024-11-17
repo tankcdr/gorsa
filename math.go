@@ -57,6 +57,33 @@ func SieveOfEratosthenes(max int) []bool {
 	return sieve
 }
 
+func SieveOfEuler(max int) []bool {
+	sieve := make([]bool, max+1)
+
+	sieve[2] = true
+
+	for p := 3; p < len(sieve); p += 2 {
+		sieve[p] = true
+	}
+
+	for p := 3; p <= max; p += 2 {
+		if sieve[p] {
+			maxQ := max / p
+			if maxQ%2 == 0 {
+				maxQ--
+			}
+
+			for q := maxQ; q >= p; q -= 2 {
+				if sieve[q] == true {
+					sieve[p*q] = false
+				}
+			}
+		}
+
+	}
+	return sieve
+}
+
 func PrintSieve(sieve []bool) {
 	for i, _ := range sieve {
 		if sieve[i] {

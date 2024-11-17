@@ -18,7 +18,7 @@ func main() {
 	fmt.Printf("Sieve of Eratosthenes Elapsed: %f seconds\n", elapsed.Seconds())
 
 	startEuler := time.Now()
-	sieveEuler := gorsa.SieveOfEratosthenes(max)
+	sieveEuler := gorsa.SieveOfEuler(max)
 	elapsedEuler := time.Since(startEuler)
 	fmt.Printf("Sieve of Euler Elapsed: %f seconds\n", elapsedEuler.Seconds())
 

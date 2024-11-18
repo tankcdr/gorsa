@@ -166,9 +166,9 @@ func TestMath_SieveOfEuler(t *testing.T) {
 		max  int
 		want []bool
 	}{
-		{"SieveOfEratosthenes(10)", 10, []bool{false, false, true, true, false, true, false, true, false, false, false}},
-		{"SieveOfEratosthenes(20)", 20, []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false}},
-		{"SieveOfEratosthenes(30)", 30, []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, false, false, false, false, true, false}},
+		{"SieveOfEuler(10)", 10, []bool{false, false, true, true, false, true, false, true, false, false, false}},
+		{"SieveOfEuler(20)", 20, []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false}},
+		{"SieveOfEuler(30)", 30, []bool{false, false, true, true, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, true, false, false, false, true, false, false, false, false, false, true, false}},
 	}
 
 	for _, tt := range tests {

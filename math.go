@@ -9,6 +9,8 @@ func randRange(min, max int) int {
 	return rand.Intn(max-min) + min
 }
 
+// IsProbablyPrime returns true if n is probably prime, and false if it is definitely composite.
+// The function uses Fermat's little theorem to test for primality.
 func IsProbablyPrime(n, numTests int) bool {
 	//no need to check for 0 or 1 or negatives
 	if n < 2 {
@@ -25,6 +27,7 @@ func IsProbablyPrime(n, numTests int) bool {
 
 	//Fermat's little theorem
 	//a^(n-1) ≡ 1 (mod n)
+	//numTests increases the probability of correctness
 	for i := 0; i < numTests; i++ {
 		randomNum := randRange(2, n)
 		result := FastExpMod(randomNum, n-1, n)
@@ -36,6 +39,8 @@ func IsProbablyPrime(n, numTests int) bool {
 	return true
 }
 
+// FindPrime returns a prime number between min and max.
+// The function uses IsProbablyPrime to test for primality.
 func FindPrime(min, max, numTests int) int {
 	for {
 		n := randRange(min, max)
@@ -60,6 +65,7 @@ func LCM(a, b int) int {
 	return a * (b / GCD(a, b))
 }
 
+// FastExp returns num raised to the power of pow.
 func FastExp(num, pow int) int {
 	res := 1
 	for pow > 0 {
@@ -72,6 +78,7 @@ func FastExp(num, pow int) int {
 	return res
 }
 
+// FastExpMod returns num raised to the power of pow modulo mod.
 func FastExpMod(num, pow, mod int) int {
 	res := 1
 	for pow > 0 {
@@ -100,6 +107,7 @@ func SieveOfEratosthenes(max int) []bool {
 	return sieve
 }
 
+// Build Euler's sieve.
 func SieveOfEuler(max int) []bool {
 	sieve := make([]bool, max+1)
 
@@ -136,7 +144,7 @@ func PrintSieve(sieve []bool) {
 	println()
 }
 
-// Convert the sieve into a slice holding prime numbers.
+// Convert a sieve into a slice holding prime numbers.
 func SieveToPrimes(sieve []bool) []int {
 	primes := []int{}
 	for i, v := range sieve {

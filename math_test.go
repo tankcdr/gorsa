@@ -179,3 +179,50 @@ func TestMath_SieveOfEuler(t *testing.T) {
 		})
 	}
 }
+
+func TestMath_IsProbablyPrime(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		n    int
+		want bool
+	}{
+		{"IsProbablyPrime(-1)", -1, false},
+		{"IsProbablyPrime(0)", 0, false},
+		{"IsProbablyPrime(1)", 1, false},
+		{"IsProbablyPrime(2)", 2, true},
+		{"IsProbablyPrime(3)", 3, true},
+		{"IsProbablyPrime(5)", 5, true},
+		{"IsProbablyPrime(7)", 7, true},
+		{"IsProbablyPrime(11)", 11, true},
+		{"IsProbablyPrime(13)", 13, true},
+		{"IsProbablyPrime(4)", 4, false},
+		{"IsProbablyPrime(6)", 6, false},
+		{"IsProbablyPrime(8)", 8, false},
+		{"IsProbablyPrime(9)", 9, false},
+		{"IsProbablyPrime(10)", 10, false},
+		{"IsProbablyPrime(12)", 12, false},
+		{"IsProbablyPrime(47)", 47, true},
+		{"IsProbablyPrime(101)", 101, true},
+		{"IsProbablyPrime(7919)", 7919, true},
+		{"IsProbablyPrime(104729)", 104729, true},
+		{"IsProbablyPrime(999331)", 999331, true},
+		{"IsProbablyPrime(10000)", 10000, false},
+		{"IsProbablyPrime(123456)", 123456, false},
+		{"IsProbablyPrime(999998)", 999998, false},
+		//Carmichael numbers
+		{"IsProbablyPrime(561)", 561, false},
+		{"IsProbablyPrime(1105)", 1105, false},
+		//large Merseene prime
+		{"IsProbablyPrime(2_147_483_647)", 2_147_483_647, true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := gorsa.IsProbablyPrime(tt.n, 20); got != tt.want {
+				t.Errorf("IsProbablyPrime() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

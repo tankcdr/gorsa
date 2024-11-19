@@ -1,6 +1,49 @@
 package gorsa
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
+
+func randRange(min, max int) int {
+	return rand.Intn(max-min) + min
+}
+
+func IsProbablyPrime(n, numTests int) bool {
+	//no need to check for 0 or 1 or negatives
+	if n < 2 {
+		return false
+	}
+	//2 and 3 are prime
+	if n == 2 || n == 3 {
+		return true
+	}
+	//even numbers are not prime
+	if n%2 == 0 {
+		return false
+	}
+
+	//Fermat's little theorem
+	//a^(n-1) ≡ 1 (mod n)
+	for i := 0; i < numTests; i++ {
+		randomNum := randRange(2, n)
+		result := FastExpMod(randomNum, n-1, n)
+
+		if result != 1 {
+			return false
+		}
+	}
+	return true
+}
+
+func FindPrime(min, max, numTests int) int {
+	for {
+		n := randRange(min, max)
+		if IsProbablyPrime(n, numTests) {
+			return n
+		}
+	}
+}
 
 // GCD returns the greatest common divisor of a and b.
 // using the Euclidean algorithm

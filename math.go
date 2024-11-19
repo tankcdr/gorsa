@@ -5,6 +5,55 @@ import (
 	"math/rand"
 )
 
+// Encrypt returns the ciphertext of a message using the public key (e, n).
+func Encrypt(message, e, n int) int {
+	return FastExpMod(message, e, n)
+}
+
+// Decrypt returns the plaintext of a ciphertext using the private key (d, n).
+func Decrypt(ciphertext, d, n int) int {
+	return FastExpMod(ciphertext, d, n)
+}
+
+// Totient returns the number of positive integers less than n that are coprime to n.
+// This function uses Carmichael's totient function.
+func TotientCarmichael(p, q int) int {
+	return LCM(p-1, q-1)
+}
+
+// RandomExponent returns a random exponent e such that 1 < e < totient and GCD(e, totient) = 1.
+func RandomExponent(totient int) int {
+	for {
+		e := randRange(2, totient)
+		if GCD(e, totient) == 1 {
+			return e
+		}
+	}
+}
+
+// Extended Euclidean Algorithm
+// Given a and n, this function returns the multiplicative inverse of a modulo n.
+func InverseModulo(a, n int) int {
+	t := 0
+	newt := 1
+	r := n
+	newr := a
+
+	for newr != 0 {
+		quotient := r / newr
+		t, newt = newt, t-quotient*newt
+		r, newr = newr, r-quotient*newr
+	}
+
+	if r > 1 {
+		return -1
+	}
+	if t < 0 {
+		t += n
+	}
+	return t
+}
+
 func randRange(min, max int) int {
 	return rand.Intn(max-min) + min
 }

@@ -226,3 +226,67 @@ func TestMath_IsProbablyPrime(t *testing.T) {
 		})
 	}
 }
+
+func TestMath_TotientCarmichael(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		p    int
+		q    int
+		want int
+	}{
+		{"TotientCarmichael(2,5)", 2, 5, 4},
+		{"TotientCarmichael(3,5)", 3, 5, 4},
+		{"TotientCarmichael(5,7)", 5, 7, 12},
+		{"TotientCarmichael(11,13)", 11, 13, 60},
+		{"TotientCarmichael(13,17)", 13, 17, 48},
+		{"TotientCarmichael(17,23)", 17, 23, 176},
+		{"TotientCarmichael(19,23)", 19, 23, 198},
+		{"TotientCarmichael(29,31)", 29, 31, 420},
+		{"TotientCarmichael(61,53)", 61, 53, 780},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := gorsa.TotientCarmichael(tt.p, tt.q); got != tt.want {
+				t.Errorf("TotientCarmichael() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestMath_InverseModulo(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name string
+		a    int
+		n    int
+		want int
+	}{
+		{"InverseModulo(2, 5)", 2, 5, 3},            // 2 * 3 mod 5 = 1
+		{"InverseModulo(3, 11)", 3, 11, 4},          // 3 * 4 mod 11 = 1
+		{"InverseModulo(10, 17)", 10, 17, 12},       // 10 * 12 mod 17 = 1
+		{"InverseModulo(7, 26)", 7, 26, 15},         // 7 * 15 mod 26 = 1
+		{"InverseModulo(9, 28)", 9, 28, 25},         // 9 * 25 mod 28 = 1
+		{"InverseModulo(17, 3120)", 17, 3120, 2753}, // 17 * 2753 mod 3120 = 1
+		{"InverseModulo(3, 7)", 3, 7, 5},            // 3 * 5 mod 7 = 1
+		{"InverseModulo(2, 9)", 2, 9, 5},            // 2 * 5 mod 9 = 1
+		{"InverseModulo(4, 9)", 4, 9, 7},            // 4 * 7 mod 9 = 1
+		{"InverseModulo(6, 13)", 6, 13, 11},         // 6 * 11 mod 13 = 1
+		{"InverseModulo(5, 12)", 5, 12, 5},          // 5 * 5 mod 12 = 1
+		{"InverseModulo(8, 15)", 8, 15, 2},          // 8 * 2 mod 15 = 1
+		{"InverseModulo(11, 21)", 11, 21, 2},        // 11 * 2 mod 21 = 1
+		{"InverseModulo(14, 33)", 14, 33, 26},       // 14 * 26 mod 33 = 1
+		{"InverseModulo(19, 81)", 19, 81, 64},       // 19 * 64 mod 81 = 1
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := gorsa.InverseModulo(tt.a, tt.n); got != tt.want {
+				t.Errorf("InverseModulo() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
